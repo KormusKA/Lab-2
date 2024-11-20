@@ -101,7 +101,26 @@ def publisher_list():
 
         print(', '.join(map(str, sorted(publishers))))
 
-        print(f'\n Всего {len(publishers)} издательства \n')
+        print(f'\n Всего {len(publishers)} издательств \n')
+
+def most_popular_books():
+    with open('books-en.csv', 'r', encoding='windows-1251') as csvfile:
+        table = list(reader(csvfile, delimiter=';'))
+        table.pop(0)
+
+        popular = []
+
+        for row in table:
+            title = row[1]
+            download = int(row[-2])
+
+            popular.append((download, title))
+
+        popular = sorted(popular, reverse=True)[:20]
+
+        print('20 самых популярных книг: \n')
+        for i in range(len(popular)):
+            print(f'{i+1}. {popular[i][1]}')
 
 
 if __name__ == "__main__":
@@ -109,9 +128,14 @@ if __name__ == "__main__":
     print('\n')
 
     book_search()
+    print('\n')
 
     link_generator()
+    print('\n')
 
     data_extraction()
+    print('\n')
 
     publisher_list()
+
+    most_popular_books()
